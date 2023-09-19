@@ -1,6 +1,6 @@
-from rest_framework import generics
+from rest_framework import generics, mixins
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from rest_framework.response import Response 
 
 from django.shortcuts import get_object_or_404
 
@@ -42,7 +42,32 @@ class ProductDeleteAPIView(generics.DestroyAPIView):
     def perform_destroy(self, instance):
         return super().perform_destroy(instance)
     
+class ProductMixinView(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.RetrieveModelMixin,
+    generics.GenericAPIView):
 
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    def get(self, request, *args, **kwargs):
+        print(args, kwargs)
+        pk = kwargs.get("pk")
+        if pk:
+            return self.retrieve(request, *args, **kwargs)
+        return self.list(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+    
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    
+    def delete(self, *args, **kwargs):
+        return self.destroy(self, *args, **kwargs)
+    
 
 
 
