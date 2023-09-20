@@ -9,7 +9,7 @@ print(auth_response.json())
 if auth_response.status_code == 200:
     token = auth_response.json()["token"]
     headers = {
-        "Authorization" : f"Bearer {token}" # The deafult string starts with Token
+        "Authorization" : f"Bearer {token}" # The deafult string starts with f"Token ...""
     }
     endpoint = "http://localhost:8000/api/products/"
 
