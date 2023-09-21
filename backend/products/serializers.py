@@ -5,6 +5,7 @@ from .models import Product
 from . import validators
 
 class ProductSerializer(serializers.ModelSerializer):
+    my_user_data = serializers.SerializerMethodField(read_only=True)
     my_discount = serializers.SerializerMethodField(read_only=True)
     edit_url = serializers.SerializerMethodField()  
     url = serializers.HyperlinkedIdentityField(view_name="product-detail", lookup_field="pk")
@@ -14,6 +15,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = [
+            # "user",
             "url",
             "edit_url",
             "pk", 
@@ -22,8 +24,15 @@ class ProductSerializer(serializers.ModelSerializer):
             "price",
             "sale_price",
             "my_discount",
+            "my_user_data",
         ]
     
+    def get_my_user_data(self, obj):
+        return {
+            "username" : obj.user.username
+
+        }
+
     # def validate_title(self, value):
     #     request = self.context.get("request")
     #     qs = Product.objects.filter(user=request.user, title__iexact=value)
