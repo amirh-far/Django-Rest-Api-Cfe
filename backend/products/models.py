@@ -3,8 +3,11 @@ from django.conf import settings
 from django.db.models.query import QuerySet
 from django.db.models import Q
 
+import random
+
 User = settings.AUTH_USER_MODEL
 
+TAGS_MODEL_VALUES = ["electronics", "cars", "boats", "movies", "cameras"]
 class ProductQuerySet(models.QuerySet):
     def is_public(self):
         return self.filter(public=True)
@@ -33,6 +36,12 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=15, decimal_places=2, default=99.99)
     public = models.BooleanField(default=True)
     objects = ProductManager()
+    
+    def is_public(self):
+        return self.public
+    
+    def get_tags_list(self):
+        return [random.choice(TAGS_MODEL_VALUES)]
 
     @property
     def sale_price(self):
