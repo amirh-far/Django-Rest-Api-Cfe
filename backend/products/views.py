@@ -21,7 +21,7 @@ class ProductListCreateAPIView(UserQuerySetMixin, # Note that its important to i
         if content is None:
             content = title
         serializer.save(user=self.request.user, content=content)
-        print(serializer.data)
+        # print(serializer.data)
 
     # def get_queryset(self, *args, **kwargs):
     #     qs = super().get_queryset(*args, **kwargs)
@@ -48,7 +48,7 @@ class ProductUpdateAPIView(UserQuerySetMixin,
         instance = serializer.save()
         if not instance.content:
             instance.content = instance.title
-        print(serializer.data)
+        # print(serializer.data)
 
 
 class ProductDeleteAPIView(UserQuerySetMixin,
@@ -72,7 +72,7 @@ class ProductMixinView(
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     def get(self, request, *args, **kwargs):
-        print(args, kwargs)
+        # print(args, kwargs)
         pk = kwargs.get("pk")
         if pk:
             return self.retrieve(request, *args, **kwargs)
@@ -110,5 +110,5 @@ def product_alt_view(request, pk=None, *args, **kwargs):
             if content is None:
                 content = title
             serializer.save(content=content)
-            print(serializer.data)
+            # print(serializer.data)
             return Response(serializer.data)
