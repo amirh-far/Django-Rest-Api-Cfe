@@ -5,14 +5,17 @@ from .models import Product
 
 @register(Product)
 class ProductIndex(AlgoliaIndex):
-    should_index = 'is_public'
+    # should_index = 'is_public'
     fields = [
         'title',
         'content',
         'price',
         'public',
-
     ]
+    settings = {
+        "searchableAttributes": ["title", "content"],
+        "attributesForFaceting": ["user", "public"], 
+    }
     tags = "get_tags_list"
-    
+
 # admin.site.register(Product, ProductModelAdmin)
