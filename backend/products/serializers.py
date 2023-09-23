@@ -12,23 +12,24 @@ from api.serializers import UserPublicSerializer
 
 class ProductSerializer(serializers.ModelSerializer):
     owner = UserPublicSerializer(source="user", read_only=True)
-    edit_url = serializers.SerializerMethodField()  
-    url = serializers.HyperlinkedIdentityField(view_name="product-detail", lookup_field="pk")
     title = serializers.CharField(validators=[validators.validate_title_no_hello,
                                                validators.unique_product_title])
+    body = serializers.CharField(source="content")
+
 
     class Meta:
         model = Product
         fields = [
             "owner",
-            "url",
-            "edit_url",
             "pk", 
             "title",
-            "content",
+            # "content",
+            "body",
             "price",
             "sale_price",
             "public",
+            "path",
+            "endpoint",
         ]
 
 
@@ -49,8 +50,8 @@ class ProductSerializer(serializers.ModelSerializer):
     #     email = validated_data.pop("email")
     #     return super().update(instance, validated_data)
 
-    def get_edit_url(self, obj):
-        request = self.context.get("request")
-        if request is None:
-            return None
-        return reverse("product-edit-detail", kwargs={"pk": obj.pk},  request=request)
+    # def get_edit_url(self, obj):
+    #     request = self.context.get("request")
+    #     if request is None:
+    #         return None
+    #     return reverse("product-edit-detail", kwargs={"pk": obj.pk},  request=request)

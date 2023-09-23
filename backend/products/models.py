@@ -37,15 +37,31 @@ class Product(models.Model):
     public = models.BooleanField(default=True)
     objects = ProductManager()
     
-    def is_public(self):
-        return self.public
-    
-    def get_tags_list(self):
-        return [random.choice(TAGS_MODEL_VALUES)]
 
+    @property
+    def body(self):
+        return self.content
+    
+    @property
+    def path(self):
+        return f"/products/{self.pk}/"
+    
+    @property
+    def endpoint(self):
+        return self.get_absolute_url()
+    
     @property
     def sale_price(self):
         return "%.2f" %(float(self.price) * 0.8)
     
-    def get_discount(self):
-        return "122"
+    def get_absolute_url(self):
+        return f"/api/products/{self.pk}/"
+    
+    def is_public(self):
+        return self.public
+    
+    def get_tags_list(self):
+        return [random.choice(TAGS_MODEL_VALUES )]
+
+
+    
