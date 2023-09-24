@@ -157,3 +157,48 @@ function getProductList() {
 }
 
 validateJWTToken()
+
+
+const searchClient = algoliasearch('ZXMBVCXQCZ', '7c6110b5b202c3690e2dda9ffe14ed83');
+
+const search = instantsearch({
+  indexName: 'amirh-far_Product',
+  searchClient,
+});
+
+search.addWidgets([
+  instantsearch.widgets.searchBox({
+    container: '#searchbox',
+  }),
+
+  instant.widgets.clearRefinements({
+    container: "#clear-refinements",
+
+  }),
+  
+
+  instant.widgets.refinementsList({
+    container: "#user-list",
+    attribue: "user"
+  }),
+
+
+  instant.widgets.refinementsList({
+    container: "#public-list",
+    attribue: "public"
+
+  }),
+  instantsearch.widgets.hits({
+    container: '#hits',
+    templates: {
+        item: `<div>
+                    <div>{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</div>
+                    <div>{{#helpers.highlight}}{ "attribute": "body" }{{/helpers.highlight}}</div>
+                    <p>{{ user  }}</p>
+                    <p>\$ {{ price }}</p>
+              </div>`
+    }
+  })
+]);
+
+search.start();
