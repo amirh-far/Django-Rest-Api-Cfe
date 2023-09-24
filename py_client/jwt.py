@@ -95,7 +95,7 @@ class JWTClient:
         username = input("What is your username?\n")
         password = getpass("What is your password?\n")
         r = requests.post(endpoint, json={'username': username, 'password': password})
-        if r.status_code != 200:
+        if r.status_code != 200: 
             raise Exception(f"Access not granted: {r.text}")
         print('access granted')
         self.write_creds(r.json())
@@ -104,7 +104,7 @@ class JWTClient:
         """
         Store credentials as a local file
         and update instance with correct
-        data.
+        data. 
         """
         if self.cred_path is not None:
             self.access = data.get('access')
