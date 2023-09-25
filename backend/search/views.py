@@ -6,7 +6,7 @@ from products.serializers import ProductSerializer
 
 from . import client
  
-class AlgoliaSearchListView(generics.GenericAPIView):
+class SearchListView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         user = None
         if request.user.is_authenticated:
@@ -22,7 +22,7 @@ class AlgoliaSearchListView(generics.GenericAPIView):
          
 
 
-class SearchListView(generics.ListAPIView):
+class SearchListOldView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
